@@ -1,0 +1,33 @@
+{
+    "id": "D304EC44",
+    "path": "~/Proyectos_R_2022/Clase_Didactica/index.qmd",
+    "project_path": "index.qmd",
+    "type": "quarto_markdown",
+    "hash": "4262112730",
+    "contents": "",
+    "dirty": false,
+    "created": 1650558109040.0,
+    "source_on_save": true,
+    "relative_order": 1,
+    "properties": {
+        "rmdVisualMode": "true",
+        "rmdVisualWrapConfigured": "true",
+        "tempName": "Untitled1",
+        "source_window_id": "",
+        "Source": "Source",
+        "cursorPosition": "246,0",
+        "scrollLine": "227",
+        "docOutlineVisible": "0",
+        "rmdVisualCollapsedChunks": "",
+        "rmdVisualModeLocation": "5966:5367.72705078125",
+        "chunk_output_type": "console"
+    },
+    "folds": "",
+    "lastKnownWriteTime": 1650660754,
+    "encoding": "UTF-8",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1650660754304,
+    "read_only": false,
+    "read_only_alternatives": []
+}

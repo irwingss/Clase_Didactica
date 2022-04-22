@@ -1,0 +1,246 @@
+---
+title: "Modelo Lineal con R"
+author: "Blgo. Irwing S. Saldaña"
+date: "Instituto de Ciencias Antonio Brack | masterX"
+format:
+  revealjs:
+    incremental: true
+    smaller: false
+    scrollable: true
+    theme:
+      - simple
+      - styles.css
+    logo: logo.png
+    footer: <span style="font-size:13px;">"Modelos Lineales con R | Blgo. Irwing S. Saldaña"</span>
+    slide-number: false
+    show-slide-number: print
+    preview-links: true
+    self-contained: false
+    chalkboard: true
+    transition: slide
+    css: styles.css
+    code-overflow: wrap
+editor: visual
+editor_options: 
+  chunk_output_type: console
+---
+
+# Conociendo el <br>entorno de trabajo
+
+## ¿R?
+
+-   R es un lenguaje de programación.
+
+-   Permite al usuario crear sus propias rutas analíticas.
+
+-   Usaremos RStudio como intérprete del lenguaje R.
+
+. . .
+
+<br> <br>
+
+<center>
+
+<img src="R logo.png" height="150" width="300"/>
+
+</center>
+
+## La magia de R
+
+::: panel-tabset
+#### Código
+
+```{r, echo=TRUE, eval=FALSE}
+library(tidyverse)
+iris %>% 
+  ggplot(aes(x=Petal.Length, fill=Species))+
+  geom_histogram()+
+  theme_par()
+```
+
+#### Gráfico
+
+```{r, echo=FALSE, fig.align='center', fig.height=4.5}
+library(tidyverse)
+iris %>% 
+  ggplot(aes(x=Petal.Length, fill=Species))+
+  geom_histogram()+
+  ggthemes::theme_par()+
+  ggthemes::scale_fill_tableau()+
+  theme(plot.margin = margin(0, 0, 0, 0, "cm"))
+```
+:::
+
+## 
+
+::: panel-tabset
+#### ANOVA
+
+```{r, echo=TRUE, fig.align='center'}
+rstatix::welch_anova_test(data=iris, Petal.Length~Species)
+```
+
+#### Gráfico ANOVA
+
+```{r, echo=TRUE, fig.align='center', fig.height=4.4, fig.width=7}
+library(ggstatsplot)
+ggbetweenstats(data = iris, x = Species, y = Petal.Length)
+```
+:::
+
+## ¿Qué herramientas didácticas usaremos?
+
+-   Diapositivas interactivas con [Quarto Markdown]{.important} y [Revealjs]{.important} en RStudio.
+
+-   Desarrollo en vivo de modelamiento con lenguaje de programación R.
+
+-   [Quizizz]{.important} para reforzamiento final
+
+![](logos_herramientas.png){.absolute bottom="100" right="180" width="700" height="146"}
+
+# ¿Qué idea tienes sobre un modelo lineal?
+
+## Modelo lineal
+
+```{r, echo=FALSE, fig.align='center', fig.height=7.5}
+library(MASS)
+data("cats")
+cats %>% 
+  ggplot(aes(x=Bwt, y=Hwt))+
+  geom_point(color="#4e00ff", size=3.5, alpha=0.3)+
+  geom_smooth(method="lm", color="#4e00ff", fill="#d3c0ff")+
+  ggthemes::theme_par()+
+  # facet_grid(.~factor(Sex, labels = c("F"="Hembra", "M"="Macho")))+
+  labs(x="Peso Corporal", y="Peso del Corazón")+
+  theme(plot.margin = margin(0, 0, 0, 0, "cm"))
+
+
+```
+
+## Modelo lineal
+
+-   Es la forma de relacionar dos variables numéricas continuas más sencilla que existe.
+
+-   Asume la [fórmula matemática]{.important} $y = \beta_0 + \beta_ix_i$
+
+-   Por ello, se dice que Y (variable dependiente) se calcula en función de X
+
+## Parámetros y variables de la función lineal
+
+-   [X:]{.important} variable independiente, o explicativa.
+
+-   [Y:]{.important} variable dependiente, o respuesta.
+
+. . .
+
+El método de cálculo tradicional de los parámetros es el OLS (Ordinal Least Squares) **Cuadrados mínimos ordinarios**, pero puede hacer con otros métodos como ML (Maximum Likelihood) **Máxima verosimilitud**.
+
+-   [Parámetro $\beta_0$:]{.important} o intercepto de la recta en el eje Y
+
+-   [Parámetro $\beta_i$:]{.important} o coeficiente (pendiente) de la iésima variable independiente X.
+
+## El error de la regresión
+
+La fórmula matemática incluye un valor desconocido llamado $\epsilon$:
+
+$$
+y = \beta_0 + \beta_ix_i + \epsilon
+$$
+
+Este representa el error, que no se conoce pero se estima utilizando los [residuales de la regresión]{.important}.
+
+## 
+
+::: panel-tabset
+# Residuales
+
+-   Es la diferencia entre el valor Y de cada punto y su respectiva proyección en la recta de la regresión.
+
+-   Implica la diferencia entre lo real y lo predicho para la variable dependiente Y.
+
+-   Mientras más grandes sean los valores, más error hay en la regresión.
+
+# Gráfico explicativo
+
+```{r, echo=FALSE, fig.height=5.5}
+md <-lm(Hwt~Bwt, data=cats)
+cats_aumentado <- cbind(rstatix::augment(md), cats$Sex) %>% 
+  rename(Sex = `cats$Sex`)
+
+Graf <- cats_aumentado %>% 
+  ggplot(aes(x=Bwt, y=Hwt))+
+  geom_point(color="#4e00ff", size=3.5, alpha=0.3)+
+  geom_smooth(method="lm", color="#4e00ff", fill="#d3c0ff")+
+  ggthemes::theme_par()+
+  # facet_grid(.~factor(Sex, labels = c("F"="Hembra", "M"="Macho")))+
+  labs(x="Peso Corporal", y="Peso del Corazón")+
+  geom_segment(aes(xend=Bwt, x=Bwt, y=Hwt, yend=.fitted), color="#e8af00")+
+  theme(plot.margin = margin(0.5, 0.5, 0.5, 0.5, "cm"))
+
+library(plotly)
+ggplotly(Graf)
+
+```
+:::
+
+## Interpretación
+
+-   $\beta_0$: equivale al promedio esperado para Y cuando x = 0
+
+-   $\beta_1$: equivale al cambio (aumento o disminución) promedio esperado para Y cuando x aumenta en una unidad.
+
+. . .
+
+-   Considera la variable Y como `Hwt` y la variable X como `Bwt`
+
+```{r, echo=FALSE}
+library(MASS)
+modelo <- lm(Hwt ~ Bwt, data=cats)
+# Coeficientes (betas)
+modelo$coefficients
+```
+
+## ¿Cómo medir la calidad <br>de la regresión lineal?
+
+1.  [RSE:]{.important}error estándar residual (siglas en inglés) es una forma de medir la desviación estándar de los residuos en un modelo de regresión. A menor valor de RSE, mejor el ajuste del modelo.
+
+2.  [R-squared:]{.important} R cuadrado. Es una medida estadística que indica cuánta variabilidad de la variable Y es explicada por la variable X.
+
+## ¿Asunciones teóricas?
+
+1.  [Linealidad]{.important} de la relación entre X e Y.
+
+2.  Homogeneidad de varianza de los residuales ([Homocedasticidad]{.important}).
+
+3.  [Normalidad]{.important} de los residuales.
+
+4.  Ausencia de valores atípicos ([outliers]{.important}).
+
+# Ejemplos de trabajo con código de R en RStudio
+
+# Es hora de que <br>reconozcas tu aprendizaje
+
+## ¡Vamos a Quizziz!
+
+<br>
+
+<center>
+
+[Clic aquí para ir al test de progreso](https://quizizz.com/join/quiz/626180721c8c37001d86fec1/start?studentShare=true)
+
+<img src="Quizziz logo.jfif" width="480"/>
+
+</center>
+
+## En resumen
+
+-   Los modelos lineales son las regresiones más [sencillas]{.important}.
+-   Su [fórmula matemática]{.important} general es $y = \beta_0 + \beta_ix_i + \epsilon$
+-   Una regresión lineal simple tiene dos [parámetros]{.important}: $\beta_0$ o intercepto y $\beta_1$ o pendiente.
+-   $\beta_0$ es el promedio esperado de Y cuando $x = 0$.
+-   Se [interpreta ]{.important}como: "el promedio esperado de Y varía en $\beta_1$ unidades por cada unidad de aumento de X.
+-   El [error ]{.important}de la regresión se calcula con los residuales.
+-   De las [asunciones teóricas ]{.important}a testear, la normalidad y la homocedasticidad se mide sobre los residuales.
+-   La [calidad]{.important} del modelo se mide con RSE y el R-squared.
+
+# Gracias por tu atención

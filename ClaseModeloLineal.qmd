@@ -1,0 +1,54 @@
+---
+title: "Modelo Lineal con R"
+author: "Blgo. Irwing S. Saldaña"
+date: "Instituto de Ciencias Antonio Brack | masterX"
+format: html
+editor: visual
+---
+
+## Creación e interpretación de un modelo en R
+
+```{r}
+data("cats")
+head(cats)
+```
+```{r}
+modelo <- lm(Hwt ~ Bwt, data=cats)
+summary(modelo)
+```
+
+```{r}
+confint(modelo)
+```
+## Como crear un modelo lineal en R
+
+```{r}
+library(ggpubr)
+ggscatter(cats, x = "Bwt", y = "Hwt", add = "reg.line", 
+  add.params = list(color = "#4e00ff", fill = "#d3c0ff"),
+  conf.int = TRUE, color = "#4e00ff", alpha=0.20)+
+  stat_cor(aes(label = paste(..rr.label.., ..p.label.., sep = "~`,`~~")), 
+           label.x = 2)+
+  stat_regline_equation(label.x = 2, label.y = 21)
+```
+## Certeza del modelo
+
+```{r}
+resumen <- summary(modelo)
+resumen$r.squared
+```
+```{r}
+sqrt(deviance(modelo)/df.residual(modelo))
+```
+
+```{r}
+modelo2 <- lm(Hwt ~ Bwt + Sex, data=cats)
+summary(modelo2)
+```
+
+## Chequeo de asunciones teóricas del modelo
+
+```{r}
+performance::check_model(modelo)
+```
+

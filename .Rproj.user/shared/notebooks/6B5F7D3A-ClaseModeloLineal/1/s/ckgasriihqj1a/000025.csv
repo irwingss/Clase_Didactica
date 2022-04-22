@@ -1,0 +1,9 @@
+"0","library(ggpubr)"
+"0","ggscatter(cats, x = ""Bwt"", y = ""Hwt"", add = ""reg.line"", "
+"0","  add.params = list(color = ""#4e00ff"", fill = ""#d3c0ff""),"
+"0","  conf.int = TRUE, color = ""#4e00ff"", alpha=0.20)+"
+"0","  stat_cor(aes(label = paste(..rr.label.., ..p.label.., sep = ""~`,`~~"")), "
+"0","           label.x = 2)+"
+"0","  stat_regline_equation(label.x = 2, label.y = 21)"
+"2","`geom_smooth()` using formula 'y ~ x'
+"
