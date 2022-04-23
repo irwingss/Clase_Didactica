@@ -238,9 +238,9 @@ modelo$coefficients
 -   Su [fórmula matemática]{.important} general es $y = \beta_0 + \beta_ix_i + \epsilon$
 -   Una regresión lineal simple tiene dos [parámetros]{.important}: $\beta_0$ o intercepto y $\beta_1$ o pendiente.
 -   $\beta_0$ es el promedio esperado de Y cuando $x = 0$.
--   Se [interpreta ]{.important}como: "el promedio esperado de Y varía en $\beta_1$ unidades por cada unidad de aumento de X.
--   El [error ]{.important}de la regresión se calcula con los residuales.
--   De las [asunciones teóricas ]{.important}a testear, la normalidad y la homocedasticidad se mide sobre los residuales.
+-   Se [interpreta]{.important}como: "el promedio esperado de Y varía en $\beta_1$ unidades por cada unidad de aumento de X.
+-   El [error]{.important}de la regresión se calcula con los residuales.
+-   De las [asunciones teóricas]{.important}a testear, la normalidad y la homocedasticidad se mide sobre los residuales.
 -   La [calidad]{.important} del modelo se mide con RSE y el R-squared.
 
 # Gracias por tu atención
