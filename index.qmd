@@ -17,6 +17,7 @@ format:
     preview-links: true
     self-contained: false
     chalkboard: true
+    pdf-separate-fragments: true
     transition: slide
     css: styles.css
     code-overflow: wrap
